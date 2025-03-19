@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { SegmentGroup } from "@chakra-ui/react";
+import "./AppStatusFilter.css";
 
 class AppStatusFilter extends Component {
   state = {

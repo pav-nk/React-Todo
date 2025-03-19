@@ -4,18 +4,41 @@ import "./App.css";
 
 import SearchPanel from "../SearchPanel";
 import AppHeader from "../AppHeader";
+import TodoList from "../TodoList";
 
-function App() {
+import ItemAddForm from "../ItemAddForm";
+import { useState } from "react";
+
+const App = () => {
+  const [theme, setTheme] = useState("dark");
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
+  const todoData = [
+    { id: 1, label: "Drink Coffee", important: false },
+    { id: 2, label: "Make Awesome App", important: false },
+    { id: 3, label: "Have a lunch", important: false },
+  ];
+
   return (
     <Provider>
-      <Theme p="4" appearance="dark" colorPalette="green" height="100vh">
+      <Theme p="4" appearance={theme} colorPalette="green" height="100vh">
         <Container maxW="xl" px="2" paddingTop="5">
-          <AppHeader />
+          <AppHeader
+            toDo={1}
+            done={3}
+            theme={theme}
+            toggleTheme={toggleTheme}
+          />
           <SearchPanel />
+          <TodoList todos={todoData} />
+          <ItemAddForm />
         </Container>
       </Theme>
     </Provider>
   );
-}
+};
 
 export default App;

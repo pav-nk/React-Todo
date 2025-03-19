@@ -1,21 +1,22 @@
-import TodoItem from "../TodoItem/TodoItem";
+import TodoItem from "../TodoItem";
+import { Flex } from "@chakra-ui/react";
 import "./TodoList.css";
 
 const TodoList = ({ todos }) => {
   const elements = todos.map((item) => {
-    const { id, itemProps } = item;
+    const { id, ...itemProps } = item;
 
     return (
-      <li key={id} className="list-group-item">
+      <div key={id}>
         <TodoItem {...itemProps} />
-      </li>
+      </div>
     );
   });
 
   return (
-    <div>
-      <ul className="list-group todo-list">{elements}</ul>
-    </div>
+    <Flex gap="2" direction="column" mb="4">
+      {elements}
+    </Flex>
   );
 };
 
