@@ -5,8 +5,6 @@ import "./TodoItem.css";
 
 class TodoItem extends Component {
   render() {
-    let labelStyle = "";
-
     const {
       label,
       onDeleted,
@@ -16,6 +14,8 @@ class TodoItem extends Component {
       important,
     } = this.props;
 
+    let labelStyle = "";
+
     if (important) {
       labelStyle += " important";
     }
@@ -24,11 +24,7 @@ class TodoItem extends Component {
     }
 
     return (
-      <CheckboxCard.Root
-        size="md"
-        onChange={(e) => onToggleDone()}
-        onClick={onToggleDone}
-      >
+      <CheckboxCard.Root size="md" onChange={onToggleDone}>
         <Flex alignItems="center" pr="2">
           <CheckboxCard.Control flex="0">
             <CheckboxCard.Indicator />
@@ -43,9 +39,7 @@ class TodoItem extends Component {
               aria-label="Important ToDo"
               variant={important ? "solid" : "outline"}
               colorPalette="yellow"
-              onClick={() => {
-                onToggleImportant();
-              }}
+              onClick={onToggleImportant}
             >
               <LuStar />
             </IconButton>

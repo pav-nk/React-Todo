@@ -7,19 +7,26 @@ class ItemAddForm extends Component {
     value: "",
   };
 
+  onSubmit = (e) => {
+    e.preventDefault();
+    this.props.onAdded(this.state.value);
+    this.setState({
+      value: "",
+    });
+  };
+
   render() {
     const { value } = this.state;
-    const { onAdded } = this.props;
 
     return (
-      <Flex gap="2">
+      <form className="form" onSubmit={this.onSubmit}>
         <Input
           placeholder="What needs to be done?"
           value={value}
           onChange={(e) => this.setState({ value: e.target.value })}
         />
-        <Button onClick={() => onAdded(value)}>Add ToDo</Button>
-      </Flex>
+        <Button type="submit">Add ToDo</Button>
+      </form>
     );
   }
 }

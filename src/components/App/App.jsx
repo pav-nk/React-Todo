@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import { Provider } from "../ui/provider";
 import { Theme, Container } from "@chakra-ui/react";
 import "./App.css";
@@ -8,6 +8,7 @@ import AppHeader from "../AppHeader";
 import TodoList from "../TodoList";
 
 import ItemAddForm from "../ItemAddForm";
+import { GiConsoleController } from "react-icons/gi";
 
 class App extends Component {
   state = {
@@ -27,7 +28,7 @@ class App extends Component {
 
   deleteItem(id) {
     this.setState(({ todoData }) => ({
-      todoData: todoData.filter((toDo) => toDo.id !== id),
+      todoData: todoData.filter((todo) => todo.id !== id),
     }));
   }
 
@@ -46,30 +47,25 @@ class App extends Component {
     }));
   }
 
-  toggleProperty(arr, id, propName) {}
+  toggleProperty(arr, id, propName) {
+    const idx = arr.findIndex((el) => el.id === id);
+
+    const oldItem = arr[idx];
+    const newItem = { ...oldItem, [propName]: !oldItem[propName] };
+
+    return [...arr.slice(0, idx), newItem, ...arr.slice(idx + 1)];
+  }
 
   onToggleDone(id) {
-    this.setState(({ todoData }) => {
-      const idx = todoData.findIndex((el) => el.id === id);
-
-      const oldItem = todoData[idx];
-      const newItem = { ...oldItem, done: !oldItem.done };
-
-      const newArray = [
-        ...todoData.slice(0, idx),
-        newItem,
-        ...todoData.slice(idx + 1),
-      ];
-
-      return {
-        todoData: newArray,
-      };
-    });
-    console.log(this.state);
+    this.setState(({ todoData }) => ({
+      todoData: this.toggleProperty(todoData, id, "done"),
+    }));
   }
 
   onToggleImportant(id) {
-    console.log(id);
+    this.setState(({ todoData }) => ({
+      todoData: this.toggleProperty(todoData, id, "important"),
+    }));
   }
 
   render() {
@@ -94,7 +90,7 @@ class App extends Component {
               todos={todoData}
               onDeleted={this.deleteItem.bind(this)}
               onToggleDone={this.onToggleDone.bind(this)}
-              onToggleImportant={this.onToggleImportant}
+              onToggleImportant={this.onToggleImportant.bind(this)}
             />
             <ItemAddForm onAdded={this.addItem.bind(this)} />
           </Container>
