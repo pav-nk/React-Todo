@@ -2,13 +2,13 @@ import TodoItem from "../TodoItem";
 import { Flex } from "@chakra-ui/react";
 import "./TodoList.css";
 
-const TodoList = ({ todos }) => {
+const TodoList = ({ todos, onDeleted }) => {
   const elements = todos.map((item) => {
     const { id, ...itemProps } = item;
 
     return (
       <div key={id}>
-        <TodoItem {...itemProps} />
+        <TodoItem {...itemProps} onDeleted={() => onDeleted(id)} />
       </div>
     );
   });

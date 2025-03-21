@@ -4,33 +4,52 @@ import { LuStar, LuDelete } from "react-icons/lu";
 import "./TodoItem.css";
 
 class TodoItem extends Component {
-  state = {};
+  state = {
+    done: false,
+    important: false,
+  };
+
+  onTodoClick = (checked) => {
+    this.setState({ done: checked });
+  };
 
   render() {
-    const { label, important = false } = this.props;
+    let labelStyle = "";
 
-    const style = {
-      color: important ? "tomato" : "white",
-      fontWeight: important ? "bold" : "normal",
-    };
+    const { label, onDeleted } = this.props;
+    const { done, important } = this.state;
+
+    if (important) {
+      labelStyle += " important";
+    }
+    if (done) {
+      labelStyle += " done";
+    }
 
     return (
       <CheckboxCard.Root
         size="md"
-        onChange={(e) => console.log(e.target.checked)}
+        onChange={(e) => this.onTodoClick(e.target.checked)}
       >
         <Flex alignItems="center" pr="2">
           <CheckboxCard.Control flex="0">
             <CheckboxCard.Indicator />
           </CheckboxCard.Control>
           <CheckboxCard.Label textStyle="lg" flex="1">
-            <Text textStyle="lg">{label}</Text>
+            <Text textStyle="lg" className={labelStyle}>
+              {label}
+            </Text>
           </CheckboxCard.Label>
           <Flex gap="2">
             <IconButton
               aria-label="Important ToDo"
-              variant="outline"
+              variant={important ? "solid" : "outline"}
               colorPalette="yellow"
+              onClick={() =>
+                this.setState(({ important }) => ({
+                  important: !important,
+                }))
+              }
             >
               <LuStar />
             </IconButton>
@@ -38,6 +57,7 @@ class TodoItem extends Component {
               aria-label="Delete ToDo"
               variant="outline"
               colorPalette="red"
+              onClick={onDeleted}
             >
               <LuDelete />
             </IconButton>
