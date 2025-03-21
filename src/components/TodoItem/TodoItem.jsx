@@ -4,20 +4,17 @@ import { LuStar, LuDelete } from "react-icons/lu";
 import "./TodoItem.css";
 
 class TodoItem extends Component {
-  state = {
-    done: false,
-    important: false,
-  };
-
-  onTodoClick = (checked) => {
-    this.setState({ done: checked });
-  };
-
   render() {
     let labelStyle = "";
 
-    const { label, onDeleted } = this.props;
-    const { done, important } = this.state;
+    const {
+      label,
+      onDeleted,
+      onToggleImportant,
+      onToggleDone,
+      done,
+      important,
+    } = this.props;
 
     if (important) {
       labelStyle += " important";
@@ -29,7 +26,8 @@ class TodoItem extends Component {
     return (
       <CheckboxCard.Root
         size="md"
-        onChange={(e) => this.onTodoClick(e.target.checked)}
+        onChange={(e) => onToggleDone()}
+        onClick={onToggleDone}
       >
         <Flex alignItems="center" pr="2">
           <CheckboxCard.Control flex="0">
@@ -45,11 +43,9 @@ class TodoItem extends Component {
               aria-label="Important ToDo"
               variant={important ? "solid" : "outline"}
               colorPalette="yellow"
-              onClick={() =>
-                this.setState(({ important }) => ({
-                  important: !important,
-                }))
-              }
+              onClick={() => {
+                onToggleImportant();
+              }}
             >
               <LuStar />
             </IconButton>
