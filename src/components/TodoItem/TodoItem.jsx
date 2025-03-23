@@ -24,7 +24,7 @@ class TodoItem extends Component {
     }
 
     return (
-      <CheckboxCard.Root size="md" onChange={onToggleDone}>
+      <CheckboxCard.Root size="md" onChange={onToggleDone} checked={done}>
         <Flex alignItems="center" pr="2">
           <CheckboxCard.Control flex="0">
             <CheckboxCard.Indicator />
